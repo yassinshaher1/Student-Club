@@ -1,5 +1,6 @@
 package com.student.club.services;
 
+import com.student.club.records.UpdateUserDTO;
 import com.student.club.records.Users;
 import com.student.club.repositories.UsersRepo;
 import com.student.club.status.UsersStatus;
@@ -51,5 +52,26 @@ public class UsersService {
             System.out.println(e.getMessage());
             return UsersStatus.CANNOT_ADD_USER;
         }
+    }
+
+    public UsersStatus updateUser(String email, UpdateUserDTO updateUserDTO){
+        Optional<Users> optionalUser = usersRepo.selectByEmail(email);
+        if (optionalUser.isEmpty()){
+            return UsersStatus.USER_NOT_FOUND;
+        }
+
+        Users user = optionalUser.get();
+        Users updatedUser = new Users(
+                user.userId(),
+                updateUserDTO.name() != null ? updateUserDTO.name() : user.name(),
+                updateUserDTO.email() != null ? updateUserDTO.email() : user.email(),
+                updateUserDTO.password() != null ? updateUserDTO.password() : user.password(),
+                updateUserDTO.phone() != null ? updateUserDTO.phone() : user.phone(),
+                user.joinedAt(),
+                updateUserDTO.role() != null ? updateUserDTO.role() : user.role()
+        );
+
+        usersRepo.save(updatedUser);
+        return UsersStatus.SUCCESS;
     }
 }

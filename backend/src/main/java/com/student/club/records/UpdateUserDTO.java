@@ -4,17 +4,13 @@ import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
-public record Users(
-
-        @Id
-        Integer userId,
+public record UpdateUserDTO(
         String name,
         String email,
         String password,
         String phone,
-        LocalDateTime joinedAt,
+//        LocalDateTime joinedAt,
         String role
-) {
+){
+        
 }
-
-

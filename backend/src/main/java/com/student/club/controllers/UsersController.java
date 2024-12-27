@@ -1,5 +1,6 @@
 package com.student.club.controllers;
 
+import com.student.club.records.UpdateUserDTO;
 import com.student.club.records.Users;
 import com.student.club.repositories.UsersRepo;
 import com.student.club.services.UsersService;
@@ -7,12 +8,10 @@ import com.student.club.status.UsersStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -72,5 +71,25 @@ public class UsersController {
             System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("unexpected error occurred");
         }
+    }
+
+    @PatchMapping("/update-user")
+    public ResponseEntity<?> updateUser(@RequestParam("email") String email, @RequestBody UpdateUserDTO updates){
+        try{
+            UsersStatus status = usersService.updateUser(email, updates);
+
+            switch (status){
+                case SUCCESS:
+                    return ResponseEntity.ok("User updated successfully");
+                case USER_NOT_FOUND:
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+                default:
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+
     }
 }
