@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -91,5 +92,29 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
         }
 
+    }
+
+    @GetMapping("/delete-user")
+    public ResponseEntity<?> deleteUser(@RequestParam("email") String email){
+        try{
+            UsersStatus status = usersService.deleteUser(email);
+
+            switch (status){
+                case SUCCESS:
+                    return ResponseEntity.ok("User deleted successfully");
+                case USER_NOT_FOUND:
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+                default:
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
+        }
+    }
+
+    @GetMapping("/list-users")
+    public List<Users> getAllUsers(){
+        return usersService.getAllUsers();
     }
 }

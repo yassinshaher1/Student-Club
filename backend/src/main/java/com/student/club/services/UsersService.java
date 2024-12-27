@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -73,5 +74,19 @@ public class UsersService {
 
         usersRepo.save(updatedUser);
         return UsersStatus.SUCCESS;
+    }
+
+    public  UsersStatus deleteUser(String email){
+        Optional<Users> optionalUser = usersRepo.selectByEmail(email);
+        if (optionalUser.isEmpty()){
+            return UsersStatus.USER_NOT_FOUND;
+        }
+        Users user = optionalUser.get();
+        usersRepo.delete(user);
+        return UsersStatus.SUCCESS;
+    }
+
+    public List<Users> getAllUsers(){
+        return (List<Users>) usersRepo.findAll();
     }
 }
