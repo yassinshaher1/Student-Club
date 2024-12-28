@@ -23,6 +23,7 @@ export default function LoginForm({ children }) {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const { setUser } = useAuth();
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -39,9 +40,11 @@ export default function LoginForm({ children }) {
         const userRole = response.role;
         setMessage(response.message || "Login successful");
         
+        setUser(response);
+        
         switch (userRole) {
           case 'admin':
-            router.push('/admin ');
+            router.push('/admin');
             break;
           case 'member':
             router.push('/');
