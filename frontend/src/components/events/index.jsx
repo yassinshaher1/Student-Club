@@ -8,20 +8,23 @@ import Link from 'next/link';
 import Rounded from '../../common/RoundedButton';
 import { getHomeEvents, getAllEvents } from '../../data/events';
 
-export default function Events({ showAll = false, sortBy = 'date' }) {
+export default function Events({ showAll = false, sortBy = 'date', sortOrder = 'asc' }) {
   const [events, setEvents] = useState([]);
   const [modal, setModal] = useState({active: false, index: 0});
 
   useEffect(() => {
     const eventsList = showAll ? getAllEvents() : getHomeEvents();
     const sortedEvents = [...eventsList].sort((a, b) => {
+      let comparison = 0;
       if (sortBy === 'date') {
-        return new Date(a.time).getTime() - new Date(b.time).getTime();
+        comparison = new Date(a.time).getTime() - new Date(b.time).getTime();
+      } else {
+        comparison = a.title.localeCompare(b.title);
       }
-      return a.title.localeCompare(b.title);
+      return sortOrder === 'asc' ? comparison : -comparison;
     });
     setEvents(sortedEvents);
-  }, [showAll, sortBy]);
+  }, [showAll, sortBy, sortOrder]);
 
   const scaleAnimation = {
     initial: {scale: 0, x:"-50%", y:"-50%"},

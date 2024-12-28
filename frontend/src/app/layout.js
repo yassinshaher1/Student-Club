@@ -2,7 +2,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "../styles/globals.css";
 import ScrollProgress from "../common/ScrollProgress";
 import Header from "../components/Header/index.jsx";
-import Footer from "../components/footer/Footer.jsx"; 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -35,7 +35,6 @@ export default function RootLayout({ children }) {
 
         <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );
