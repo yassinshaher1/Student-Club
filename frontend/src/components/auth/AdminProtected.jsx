@@ -8,7 +8,7 @@ export default function AdminProtected({ children }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push('/login');
+      router.push('/admin');
     } else if (user?.role !== 'admin') {
       router.push('/');
     }
