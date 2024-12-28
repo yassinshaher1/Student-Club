@@ -4,15 +4,22 @@ import { useAuth } from '@/hooks/use-auth';
 
 export default function AdminProtected({ children }) {
   const router = useRouter();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isLoading } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/admin');
-    } else if (user?.role !== 'admin') {
-      router.push('/');
+    if (!isLoading) {  // Only redirect after initial auth check
+      if (!isAuthenticated) {
+        router.push('/login');
+      } else if (user?.role !== 'admin') {
+        router.push('/');
+      }
     }
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated, user, router, isLoading]);
+
+  // Show nothing while checking authentication
+  if (isLoading) {
+    return null;
+  }
 
   // Don't render children until we verify authentication
   if (!isAuthenticated || user?.role !== 'admin') {
