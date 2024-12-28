@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -28,7 +30,7 @@ public class UsersController {
 
     //handle Login
     @GetMapping("/login")
-    public ResponseEntity<String> login(@RequestParam("email") String email,
+    public ResponseEntity<?> login(@RequestParam("email") String email,
                                         @RequestParam("password") String password) {
         try {
             UsersStatus status = usersService.checkExistingUser(email, password);
@@ -36,7 +38,10 @@ public class UsersController {
             switch (status) {
                 case SUCCESS:
                     Users user = usersService.getUser(email);
-                    return ResponseEntity.ok("login ready" + user.role());
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("message", "login successful");
+                    response.put("role", user.role());
+                    return ResponseEntity.ok(response);
                 case PASSWORD_MISMATCH:
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("password incorrect");
                 case USER_NOT_FOUND:
@@ -53,10 +58,10 @@ public class UsersController {
     }
 
     @GetMapping("/add-user")
-    public ResponseEntity<String> addUser(@RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("phone") String phone ,@RequestParam("role") String role){
+    public ResponseEntity<String> addUser(@RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("phone") String phone){
 
         try{
-            Users user = new Users(null, name, email, password, phone, LocalDateTime.now(), role);
+            Users user = new Users(null, name, email, password, phone, LocalDateTime.now(), "member");
             UsersStatus status = usersService.addUser(user);
             //UsersStatus status = usersService.addUser(username, email, passwordHash, firstName, lastName, roleId);
 
