@@ -38,10 +38,10 @@ export default function LoginForm({ children }) {
       if (response) {
         const userRole = response.role;
         setMessage(response.message || "Login successful");
-        
+
         switch (userRole) {
           case 'admin':
-            router.push('/admin ');
+            router.push('/admin');
             break;
           case 'member':
             router.push('/');
@@ -60,63 +60,63 @@ export default function LoginForm({ children }) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-[var(--color-primary)]">SUT Email</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="name230100000@sut.edu.eg"
-                  type="email"
-                  className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--color-primary)]">SUT Email</FormLabel>
+                    <FormControl>
+                      <Input
+                          placeholder="name230100000@sut.edu.eg"
+                          type="email"
+                          className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
+                          {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+              )}
+          />
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-[var(--color-primary)]">Password</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
-                    {...field}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--color-secondary)]"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        {message && <p className="text-center text-red-500">{message}</p>}
-        {children}
-      </form>
-    </Form>
+          <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[var(--color-primary)]">Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="••••••••"
+                            className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
+                            {...field}
+                        />
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--color-secondary)]"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                          ) : (
+                              <Eye className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+              )}
+          />
+          {message && <p className="text-center text-red-500">{message}</p>}
+          {children}
+        </form>
+      </Form>
   );
 }
