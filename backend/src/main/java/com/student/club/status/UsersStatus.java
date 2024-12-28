@@ -4,5 +4,6 @@ public enum UsersStatus {
     SUCCESS,
     PASSWORD_MISMATCH,
     USER_NOT_FOUND,
-    CANNOT_ADD_USER
+    CANNOT_ADD_USER,
+    ALREADY_EXISTS,
 }

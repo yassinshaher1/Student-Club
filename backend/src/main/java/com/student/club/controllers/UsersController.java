@@ -72,6 +72,8 @@ public class UsersController {
                     return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
                 case USER_NOT_FOUND:
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found");
+                case ALREADY_EXISTS:
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
                 default:
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("unexpected error occurred");
             }

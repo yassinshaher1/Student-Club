@@ -47,6 +47,10 @@ public class UsersService {
 
     public UsersStatus addUser(Users user) {
         try {
+            Optional<Users> optionalUser = usersRepo.selectByEmail(user.email());
+            if (optionalUser.isPresent()) {
+                return UsersStatus.ALREADY_EXISTS;
+            }
             usersRepo.save(new Users(null, user.name(), user.email(), user.password(), user.phone(), LocalDateTime.now(), user.role()));
             return UsersStatus.SUCCESS;
         } catch (Exception e) {
