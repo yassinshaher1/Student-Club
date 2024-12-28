@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UsersController {
     private final UsersService usersService;
     private final UsersRepo usersRepo;
@@ -41,6 +42,7 @@ public class UsersController {
                     Map<String, Object> response = new HashMap<>();
                     response.put("message", "login successful");
                     response.put("role", user.role());
+//                    System.out.println("successful" + response);
                     return ResponseEntity.ok(response);
                 case PASSWORD_MISMATCH:
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("password incorrect");
