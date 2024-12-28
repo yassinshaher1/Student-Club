@@ -42,10 +42,10 @@ export default function LoginForm({ children }) {
         switch (userRole) {
           case 'admin':
             router.push('/admin');
-            break;
+            return;
           case 'member':
             router.push('/');
-            break;
+            return;
           default:
             setMessage("Invalid user role");
             break;
