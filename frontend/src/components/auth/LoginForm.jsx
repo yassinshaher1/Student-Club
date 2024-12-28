@@ -41,7 +41,7 @@ export default function LoginForm({ children }) {
         
         switch (userRole) {
           case 'admin':
-            router.push('/admin');
+            router.push('/admin ');
             break;
           case 'member':
             router.push('/');

@@ -13,7 +13,13 @@ export const addUser = async (userData) => {
   const response = await fetch(`${API_BASE_URL}/add-user?name=${name}&email=${email}&password=${password}&phone=${phone}`, {
     method: "GET",
   });
-  return response.json();
+  
+  if (!response.ok) {
+    const errorData = await response.text();
+    throw new Error(errorData);
+  }
+  
+  return response.text();
 };
 
 export const updateUser = async (email, updates) => {

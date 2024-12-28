@@ -48,10 +48,11 @@ export default function LandingPage() {
                 <Hero />
                 <Description />
                 <AdvantagesAndValues />
-                <Events />
+                <Events showAll={false} sortBy="date" sortOrder="asc" />
               
                 <SlidingImages />
                 <Banner />
+                <Footer />
             </main>
         </ReactLenis>
     );

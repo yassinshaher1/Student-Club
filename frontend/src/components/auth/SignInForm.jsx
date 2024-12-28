@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { addUser, loginUser } from "@/lib/services/users";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Form,
   FormControl,
@@ -14,10 +18,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
 
-const SignInForm = () => {
+const SignInForm = ({ children }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const router = useRouter();
+  const { setUser } = useAuth();
 
   const form = useForm({
     resolver: zodResolver(signInSchema),
@@ -29,9 +35,37 @@ const SignInForm = () => {
     },
   });
 
-  function onSubmit(data) {
-    console.log(data);
-    // Handle form submission here
+  async function onSubmit(data) {
+    try {
+      // First, attempt to register the user
+      const signupResponse = await addUser({
+        name: data.fullName,
+        email: data.email,
+        password: data.password,
+        phone: data.phoneNumber,
+      });
+
+      // If we get here, registration was successful
+      // Now attempt to login
+      const loginResponse = await loginUser(data.email, data.password);
+      
+      if (loginResponse && loginResponse.role) {
+        setUser(loginResponse); // Store user data in auth context
+        setMessage("Account created successfully!");
+        router.push('/'); // Redirect to landing page
+      } else {
+        setMessage("Registration successful but login failed. Please try logging in manually.");
+        router.push('/login');
+      }
+      
+    } catch (error) {
+      console.error('Registration failed:', error);
+      if (error.message.includes("already exists")) {
+        setMessage("This email is already registered. Please try logging in.");
+      } else {
+        setMessage(error.message || "Registration failed");
+      }
+    }
   }
 
   return (
@@ -46,7 +80,7 @@ const SignInForm = () => {
               <FormControl>
                 <Input 
                   placeholder="Your Name" 
-                  className="text-[var(--color-primary)]"
+                  className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
                   {...field} 
                 />
               </FormControl>
@@ -64,7 +98,7 @@ const SignInForm = () => {
               <FormControl>
                 <Input 
                   placeholder="+201234567890" 
-                  className="text-[var(--color-primary)]"
+                  className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
                   {...field} 
                 />
               </FormControl>
@@ -83,7 +117,7 @@ const SignInForm = () => {
                 <Input
                   placeholder="name230100000@sut.edu.eg"
                   type="email"
-                  className="text-[var(--color-primary)]"
+                  className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
                   {...field}
                 />
               </FormControl>
@@ -103,14 +137,14 @@ const SignInForm = () => {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    className="text-[var(--color-primary)]"
+                    className="text-[var(--color-secondary)] placeholder:text-[var(--color-secondary)]"
                     {...field}
                   />
                   <Button
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--color-primary)]"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--color-secondary)]"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
@@ -125,10 +159,8 @@ const SignInForm = () => {
             </FormItem>
           )}
         />
-
-        <Button type="submit" className="w-full">
-          Create Account
-        </Button>
+        {message && <p className="text-center text-red-500">{message}</p>}
+        {children}
       </form>
     </Form>
   );
