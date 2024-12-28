@@ -17,14 +17,5 @@ const inter = Inter({
 });
 
 export default function AuthLayout({ children }) {
-  return (
-    <html 
-      lang="en"
-      suppressHydrationWarning
-    >
-      <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}>
-        {children}
-      </body>
-    </html>
-  );
+  return (<>{children}</>);
 } 
