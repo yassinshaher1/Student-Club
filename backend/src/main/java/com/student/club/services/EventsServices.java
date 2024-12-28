@@ -64,7 +64,6 @@ public class EventsServices {
         if (optionalEvents.isEmpty()){
             return EventsStatus.EVENT_NOT_EXIST;
         }
-
         Events event = optionalEvents.get();
         eventsRepo.delete(event);
         return EventsStatus.SUCCESS;
