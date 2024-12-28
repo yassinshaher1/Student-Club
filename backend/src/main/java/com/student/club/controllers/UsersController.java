@@ -62,6 +62,7 @@ public class UsersController {
     @GetMapping("/add-user")
     public ResponseEntity<String> addUser(@RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("phone") String phone){
 
+
         try{
             Users user = new Users(null, name, email, password, phone, LocalDateTime.now(), "member");
             UsersStatus status = usersService.addUser(user);
@@ -70,8 +71,8 @@ public class UsersController {
             switch (status){
                 case SUCCESS:
                     return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
-                case USER_NOT_FOUND:
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found");
+                case CANNOT_ADD_USER:
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("unexpected error occurred");
                 case ALREADY_EXISTS:
                     return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
                 default:

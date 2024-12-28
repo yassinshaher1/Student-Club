@@ -8,10 +8,8 @@ public record Events(
 
         @Id
         Integer eventId,
-        Integer clubId,
         String name,
-        String password,
-        String phone,
+        String description,
         LocalDateTime event_date,
         String location
 ) {
