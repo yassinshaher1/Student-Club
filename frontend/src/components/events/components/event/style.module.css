@@ -1,0 +1,56 @@
+.project {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 100px;
+    border-top: 1px solid var(--color-accent-hover);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.project h2 {
+    font-size: 60px;
+    margin: 0px;
+    font-weight: 400;
+    transition: all 0.4s;
+    color: var(--color-primary);
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.4s;
+}
+
+.details p {
+    font-size: 16px;
+    margin: 0px;
+    font-weight: 300;
+}
+
+.details span {
+    color: var(--color-accent-hover);
+}
+
+.details .status {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.project:last-of-type {
+    border-bottom: 1px solid var(--color-accent-hover);
+}
+
+.project:hover {
+    opacity: 0.5;
+}
+
+.project:hover h2 {
+    transform: translateX(-10px);
+}
+
+.project:hover .details {
+    transform: translateX(10px);
+}

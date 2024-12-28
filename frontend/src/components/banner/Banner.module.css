@@ -1,0 +1,36 @@
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.copy {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+  font-family: var(--font-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.copy h1 {
+  text-transform: uppercase;
+  font-family: var(--font-primary);
+}
+
+.copy p {
+  font-family: var(--font-secondary);
+}
+
+.copy p:nth-child(3) {
+  width: 75%;
+  margin: 1em auto;
+}
+
+/* Add styles for button container */
+.copy :global(.wrapper) {
+  margin-top: 1rem;
+} 

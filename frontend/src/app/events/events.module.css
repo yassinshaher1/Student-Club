@@ -1,0 +1,108 @@
+.title {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: -100px;
+  font-family: var(--font-secondary);
+  color: var(--color-primary);
+  font-size: 5rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.sortContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2rem 0;
+  margin-top: 150px;
+  margin-bottom: -50px;
+  position: relative;
+  gap: 1rem;
+  padding-right: 200px;
+}
+
+.sortSelect {
+  padding: 0.8rem 2rem;
+  border: 2px solid var(--color-accent-hover);
+  border-radius: 30px;
+  background: rgba(var(--color-accent-hover-rgb), 0.1);
+  color: var(--color-primary);
+  font-family: var(--font-secondary);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem top 50%;
+  background-size: 0.65rem auto;
+  padding-right: 2.5rem;
+  will-change: transform;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sortSelect:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  background: rgba(var(--color-accent-hover-rgb), 0.2);
+}
+
+.sortSelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.15);
+}
+
+.customSelect {
+  background-color: transparent !important;
+  border: 2px solid var(--color-accent-hover) !important;
+  border-radius: 30px !important;
+  color: var(--color-primary) !important;
+  font-family: var(--font-secondary) !important;
+  padding: 1.2rem 2rem !important;
+  transition: all 0.3s cubic-bezier(0.76, 0, 0.24, 1) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+}
+
+.customSelect:hover {
+  border-color: var(--color-primary) !important;
+  transform: translateY(-2px);
+  background: rgba(var(--color-accent-hover-rgb), 0.2) !important;
+}
+
+.customSelect:focus {
+  outline: none !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.15) !important;
+}
+
+.selectContent {
+  background-color: var(--color-secondary) !important;
+  border: 2px solid var(--color-accent-hover) !important;
+  border-radius: 15px !important;
+  color: var(--color-primary) !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+}
+
+.selectItem {
+  color: var(--color-primary) !important;
+  font-family: var(--font-secondary) !important;
+  padding: 8px 12px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.selectItem:hover {
+  background-color: var(--color-accent) !important;
+  color: var(--color-primary) !important;
+}
+
+.selectItem[data-highlighted] {
+  background-color: var(--color-accent) !important;
+  color: var(--color-primary) !important;
+} 

@@ -1,0 +1,39 @@
+:root {
+  /* Colors */
+  --color-primary: white;
+  --color-secondary:  #1C1D20;
+  --color-accent:  rgb(41, 41, 41);
+  --color-accent-hover:  rgb(153, 153, 153);
+
+  /* Fonts */
+  --font-primary: 'Neue Montreal', sans-serif;
+  --font-secondary: 'Inter', 'Inter Fallback', sans-serif;
+  --font-mono: var(--font-geist-mono);
+  
+  /* Font Sizes */
+  --font-size-small: 16px;
+  --font-size-medium: 24px;
+  --font-size-large: 42px;
+  --font-size-xlarge: 230px;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  /* Spacing */
+  --section-small: 6.4rem;
+  --section-medium: 12rem;
+  --section-big: 16rem;
+  
+  @media (max-width: 1200px) {
+    --section-small: 6.4rem;
+    --section-medium: 12rem;
+    --section-big: 16rem;
+  }
+  
+  @media (max-width: 750px) {
+    --section-small: 4rem;
+    --section-medium: 8rem;
+    --section-big: 12rem;
+  }
+} 

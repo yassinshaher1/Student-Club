@@ -1,0 +1,15 @@
+.title {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  font-family: var(--font-secondary);
+  color: var(--color-primary);
+  font-size: 5rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.teamContainer {
+  padding: 50px 200px;
+  min-height: 60vh;
+} 
