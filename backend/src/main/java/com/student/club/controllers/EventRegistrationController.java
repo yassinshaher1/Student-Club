@@ -63,7 +63,7 @@ public class EventRegistrationController {
                 case SUCCESS:
                     return ResponseEntity.ok("reg deleted successfully");
                 case REGISTRATION_DOESNT_EXIST:
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("reg not found");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("reg  not found");
                 default:
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error occurred");
             }

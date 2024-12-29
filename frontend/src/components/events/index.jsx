@@ -16,30 +16,31 @@ export default function Events({ showAll = false, sortBy = 'date', sortOrder = '
     async function fetchEvents() {
       try {
         const eventsList = await listEvents();
-        // Transform API data to match the expected format
         const formattedEvents = eventsList.map(event => ({
           title: event.name,
           place: event.location,
-          time: event.eventDate,
+          time: event.event_date,
           description: event.description
         }));
-
+  
         const sortedEvents = [...formattedEvents].sort((a, b) => {
           let comparison = 0;
           if (sortBy === 'date') {
-            comparison = new Date(a.time).getTime() - new Date(b.time).getTime();
+            const dateA = new Date(a.time);
+            const dateB = new Date(b.time);
+            comparison = dateA.getTime() - dateB.getTime();
           } else {
             comparison = a.title.localeCompare(b.title);
           }
           return sortOrder === 'asc' ? comparison : -comparison;
         });
-
+  
         setEvents(showAll ? sortedEvents : sortedEvents.slice(0, 4));
       } catch (error) {
         console.error('Failed to fetch events:', error);
       }
     }
-
+  
     fetchEvents();
   }, [showAll, sortBy, sortOrder]);
 

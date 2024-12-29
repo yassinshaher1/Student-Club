@@ -70,6 +70,27 @@ export function EventTable() {
     event.description?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const formatDateForInput = (dateString) => {
+    try {
+      if (!dateString) {
+        console.error('Date string is undefined');
+        return { date: '', time: '' };
+      }
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        console.error('Invalid date:', dateString);
+        return { date: '', time: '' };
+      }
+      return {
+        date: date.toISOString().split('T')[0],
+        time: date.toTimeString().split(' ')[0].slice(0, 5)
+      };
+    } catch (error) {
+      console.error('Date formatting error:', error);
+      return { date: '', time: '' };
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -99,24 +120,25 @@ export function EventTable() {
         </TableHeader>
         <TableBody>
           {filteredEvents.map((event) => (
-            <TableRow key={event.id}>
+            <TableRow key={event.name}>
               <TableCell>{event.name}</TableCell>
-              <TableCell>{new Date(event.eventDate).toLocaleDateString()}</TableCell>
-              <TableCell>{new Date(event.eventDate).toLocaleTimeString()}</TableCell>
+              <TableCell>{new Date(event.event_date).toLocaleDateString()}</TableCell>
+              <TableCell>{new Date(event.event_date).toLocaleTimeString()}</TableCell>
               <TableCell>{event.location}</TableCell>
               <TableCell>
-                {new Date(event.eventDate) > new Date() ? 'upcoming' : 'completed'}
+                {new Date(event.event_date) > new Date() ? 'upcoming' : 'completed'}
               </TableCell>
               <TableCell className="space-x-2">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => {
+                    const formattedDate = formatDateForInput(event.event_date);
                     setSelectedEvent({
                       ...event,
                       title: event.name,
-                      date: new Date(event.eventDate).toISOString().split('T')[0],
-                      time: new Date(event.eventDate).toTimeString().split(' ')[0].slice(0, 5)
+                      date: formattedDate.date,
+                      time: formattedDate.time
                     });
                     setIsDialogOpen(true);
                   }}

@@ -9,6 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { registerForEvent } from "@/lib/services/eventRegistrations";
@@ -17,18 +18,22 @@ export default function Event({index, title, place, time, description, manageMod
     const formatDate = (dateString) => {
         try {
             const date = new Date(dateString);
-            if (isNaN(date.getTime())) throw new Error('Invalid date');
+            if (isNaN(date.getTime())) {
+                console.error('Invalid date string:', dateString);
+                return 'Date not available';
+            }
             
             return new Intl.DateTimeFormat('en-US', {
                 month: 'short',
                 day: 'numeric',
                 hour: 'numeric',
                 minute: '2-digit',
-                hour12: true
+                hour12: true,
+                timeZone: 'UTC'
             }).format(date);
         } catch (error) {
             console.error('Date parsing error:', error);
-            return dateString;
+            return 'Date not available';
         }
     };
 
@@ -60,10 +65,14 @@ export default function Event({index, title, place, time, description, manageMod
     return (
         <>
             <Dialog>
+                <DialogTrigger id={`dialog-${index}`} className="hidden" />
                 <div 
                     onClick={(e) => {
                         e.stopPropagation();
-                        document.querySelector(`#dialog-${index}`).click();
+                        const dialogTrigger = document.querySelector(`#dialog-${index}`);
+                        if (dialogTrigger) {
+                            dialogTrigger.click();
+                        }
                     }}
                     onMouseEnter={(e) => {manageModal(true, index, e.clientX, e.clientY)}} 
                     onMouseLeave={(e) => {manageModal(false, index, e.clientX, e.clientY)}} 
