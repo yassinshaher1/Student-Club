@@ -31,7 +31,7 @@ public class EventRegistrationService {
                 return EventRegistrationStatus.ALREADY_REGISTERED;
             }
 //            eventsRepo.save(event);
-            eventRegistrationRepo.save(new EventRegistration(null, registration.eventId(), registration.userId(), registration.registrationDate(), registration.status()));
+            eventRegistrationRepo.saveEventRegistration(registration.eventId(), registration.userId(), registration.registrationDate(), String.valueOf(registration.status()));
             return EventRegistrationStatus.SUCCESS;
         }catch(Exception e){
             System.out.println(e.getMessage());
