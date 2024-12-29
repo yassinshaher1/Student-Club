@@ -14,4 +14,7 @@ public interface EventsRepo extends CrudRepository<Events, String> {
 
     @Query("SELECT * FROM events WHERE name = :name LIMIT 1")
     Optional<Events> selectByName(String name);
+
+    @Query("SELECT event_id FROM events WHERE name = :name LIMIT 1")
+    Integer getIdByName(String name);
 }

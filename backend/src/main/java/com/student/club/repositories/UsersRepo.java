@@ -13,4 +13,7 @@ public interface UsersRepo extends CrudRepository<Users, String> {
 
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
     Optional<Users> selectByEmail(String email);
+
+    @Query("SELECT user_id FROM users WHERE email = :email LIMIT 1")
+    Integer getIdByEmail(String email);
 }

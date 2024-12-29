@@ -11,6 +11,6 @@ public record EventRegistration(
         Integer eventId,
         Integer userId,
         LocalDateTime registrationDate,
-        String status
+        com.student.club.status.EventRegistrationStatus status
 ) {
 }
