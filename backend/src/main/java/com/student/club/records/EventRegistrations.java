@@ -1,16 +1,17 @@
 package com.student.club.records;
 
+import com.student.club.status.EventRegistrationStatus;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
-public record EventRegistration(
+public record EventRegistrations(
 
         @Id
         Integer eventRegistrationId,
-        Integer eventId,
-        Integer userId,
+        String eventName,
+        String userName,
         LocalDateTime registrationDate,
-        com.student.club.status.EventRegistrationStatus status
+        EventRegistrationStatus status
 ) {
 }
