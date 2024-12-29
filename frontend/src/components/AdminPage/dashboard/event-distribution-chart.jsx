@@ -1,16 +1,42 @@
+import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { chartStyles } from "@/components/charts/base-chart-components";
-
-const data = [
-  { name: "Active Events", value: 12 },
-  { name: "Completed Events", value: 8 },
-  { name: "Upcoming Events", value: 5 },
-];
+import { listEvents } from '@/lib/services/events';
 
 const COLORS = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))'];
 
 export function EventDistributionChart() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchEventDistribution() {
+      try {
+        const events = await listEvents();
+        const now = new Date();
+        
+        const distribution = events.reduce((acc, event) => {
+          const eventDate = new Date(event.eventDate);
+          if (eventDate > now) {
+            acc.upcoming += 1;
+          } else {
+            acc.completed += 1;
+          }
+          return acc;
+        }, { upcoming: 0, completed: 0 });
+
+        setData([
+          { name: "Upcoming Events", value: distribution.upcoming },
+          { name: "Completed Events", value: distribution.completed },
+        ]);
+      } catch (error) {
+        console.error('Failed to fetch event distribution:', error);
+      }
+    }
+
+    fetchEventDistribution();
+  }, []);
+
   return (
     <Card>
       <CardHeader>

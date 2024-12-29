@@ -6,24 +6,41 @@ import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import Link from 'next/link';
 import Rounded from '../../common/RoundedButton';
-import { getHomeEvents, getAllEvents } from '../../data/events';
+import { listEvents } from '@/lib/services/events';
 
 export default function Events({ showAll = false, sortBy = 'date', sortOrder = 'asc' }) {
   const [events, setEvents] = useState([]);
   const [modal, setModal] = useState({active: false, index: 0});
 
   useEffect(() => {
-    const eventsList = showAll ? getAllEvents() : getHomeEvents();
-    const sortedEvents = [...eventsList].sort((a, b) => {
-      let comparison = 0;
-      if (sortBy === 'date') {
-        comparison = new Date(a.time).getTime() - new Date(b.time).getTime();
-      } else {
-        comparison = a.title.localeCompare(b.title);
+    async function fetchEvents() {
+      try {
+        const eventsList = await listEvents();
+        // Transform API data to match the expected format
+        const formattedEvents = eventsList.map(event => ({
+          title: event.name,
+          place: event.location,
+          time: event.eventDate,
+          description: event.description
+        }));
+
+        const sortedEvents = [...formattedEvents].sort((a, b) => {
+          let comparison = 0;
+          if (sortBy === 'date') {
+            comparison = new Date(a.time).getTime() - new Date(b.time).getTime();
+          } else {
+            comparison = a.title.localeCompare(b.title);
+          }
+          return sortOrder === 'asc' ? comparison : -comparison;
+        });
+
+        setEvents(showAll ? sortedEvents : sortedEvents.slice(0, 4));
+      } catch (error) {
+        console.error('Failed to fetch events:', error);
       }
-      return sortOrder === 'asc' ? comparison : -comparison;
-    });
-    setEvents(sortedEvents);
+    }
+
+    fetchEvents();
   }, [showAll, sortBy, sortOrder]);
 
   const scaleAnimation = {
@@ -71,18 +88,17 @@ export default function Events({ showAll = false, sortBy = 'date', sortOrder = '
 
   return (
     <main onMouseMove={(e) => {moveItems(e.clientX, e.clientY)}} className={styles.projects}>
-      <div className={styles.body}>
-        {events.map((event, index) => (
-          <Project 
-            key={index}
-            index={index} 
-            title={event.title}
-            place={event.place}
-            time={event.time}
-            manageModal={manageModal} 
-          />
-        ))}
-      </div>
+      {events.map((event, index) => (
+        <Project 
+          key={index}
+          index={index} 
+          title={event.title}
+          place={event.place}
+          time={event.time}
+          description={event.description}
+          manageModal={manageModal} 
+        />
+      ))}
       {!showAll && (
         <Link href="/events" style={{ textDecoration: 'none' }}>
           <Rounded>

@@ -11,12 +11,14 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { UserDialog } from "./user-dialog";
 import { listUsers, updateUser, deleteUser } from "@/lib/services/users";
+import { SearchBar } from "@/components/ui/search-bar";
 
 export function UserTable() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch users on component mount
   useEffect(() => {
@@ -59,14 +61,23 @@ export function UserTable() {
     }
   };
 
+  const filteredUsers = users.filter(user => 
+    user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.role?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Users</h2>
-        <Button onClick={() => {
-          setSelectedUser(null);
-          setIsDialogOpen(true);
-        }}>Add User</Button>
+        <Button onClick={() => setIsDialogOpen(true)}>Add User</Button>
+      </div>
+      <div className="mb-4">
+        <SearchBar 
+          placeholder="Search users..." 
+          onSearch={setSearchQuery}
+        />
       </div>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <Table>
@@ -74,15 +85,17 @@ export function UserTable() {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Phone</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
+              <TableCell>{user.phoneNumber}</TableCell>
               <TableCell>{user.role}</TableCell>
               <TableCell className="space-x-2">
                 <Button

@@ -3,6 +3,8 @@ import "../styles/globals.css";
 import ScrollProgress from "../common/ScrollProgress";
 import Header from "../components/Header/index.jsx";
 
+import { Toaster } from "sonner";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,10 +33,11 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}>
-        <ScrollProgress />
+      
 
         <Header />
         {children}
+        <Toaster />
       </body>
     </html>
   );

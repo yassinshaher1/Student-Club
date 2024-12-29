@@ -1,16 +1,35 @@
-import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts";
+import { useState, useEffect } from 'react';
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const data = [
-  { name: "Jan", events: 4 },
-  { name: "Feb", events: 6 },
-  { name: "Mar", events: 8 },
-  { name: "Apr", events: 5 },
-  { name: "May", events: 7 },
-  { name: "Jun", events: 9 },
-];
+import { listEvents } from '@/lib/services/events';
 
 export function ActivityChart() {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    async function fetchEventActivity() {
+      try {
+        const events = await listEvents();
+        const monthlyData = events.reduce((acc, event) => {
+          const month = new Date(event.eventDate).toLocaleString('default', { month: 'short' });
+          acc[month] = (acc[month] || 0) + 1;
+          return acc;
+        }, {});
+
+        const data = Object.entries(monthlyData).map(([name, events]) => ({
+          name,
+          events
+        }));
+
+        setChartData(data);
+      } catch (error) {
+        console.error('Failed to fetch event activity:', error);
+      }
+    }
+
+    fetchEventActivity();
+  }, []);
+
   return (
     <Card>
       <CardHeader>
@@ -18,7 +37,9 @@ export function ActivityChart() {
       </CardHeader>
       <CardContent className="pl-2">
         <ResponsiveContainer width="100%" height={350}>
-          <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          <LineChart data={chartData}>
+            <XAxis dataKey="name" />
+            <YAxis />
             <Line
               type="monotone"
               dataKey="events"
